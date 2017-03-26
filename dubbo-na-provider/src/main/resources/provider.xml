@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans        http://www.springframework.org/schema/beans/spring-beans.xsd        http://code.alibabatech.com/schema/dubbo        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- 提供方应用信息，用于计算依赖关系 -->
+    <dubbo:application name="hello-world-provider"/>
+    
+	<!-- 点对点模式，服务不注册到注册中心，仅仅将自己发配成一个服务  start-->
+   	<!--  <dubbo:registry address="N/A" /> -->
+   	<!-- 声明需要暴露的接口 -->
+   <!--  <dubbo:service interface="com.lvcr.dubbo.demo.api.IHelloWorldService" ref="demoService" ></dubbo:service> -->
+    <!-- 本地实现的接口 -->
+   <!--  <bean id="demoService" class="com.lvcr.dubbo.demo.provider.HelloWorldServiceImpl" /> -->
+    <!-- 点对点模式，服务不注册到注册中心，仅仅将自己发配成一个服务  end-->
+    
+    
+    
+   	
+   	
+    <!-- 把服务注册到zookeeper   start-->
+	<dubbo:registry address="192.168.148.130:2181" protocol="zookeeper"/>
+	<!--dubbo协议-->
+    <dubbo:protocol name="dubbo" port="20880"/> 
+    <!-- 添加monitor监控（不需要添加监控就不需要加一下配置） -->
+    <dubbo:monitor protocol="registry"></dubbo:monitor>
+    <!-- 声明需要暴露的接口 -->
+    <dubbo:service interface="com.lvcr.dubbo.demo.api.IHelloWorldService" ref="demoService" protocol="dubbo"></dubbo:service>
+    <!-- 本地实现的接口 -->
+    <bean id="demoService" class="com.lvcr.dubbo.demo.provider.HelloWorldServiceImpl" />
+
+	 <!-- 把服务注册到zookeeper   end-->
+</beans>
